@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Umfrage Auswertung</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, red, blue);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    .results {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .bar {
+      height: 30px;
+      background-color: white;
+      color: black;
+      text-align: left;
+      padding-left: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      line-height: 30px;
+      transition: width 0.5s;
+    }
+
+    .zurueck {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Auswertung der Umfrage</h1>
+
+  <div class="results" id="results"></div>
+
+  <button class="zurueck" onclick="window.location.href='umfrage.html'">Zurück zur Umfrage</button>
+
+  <script>
+    const votes = JSON.parse(localStorage.getItem('votes')) || {
+      Rot: 0,
+      Blau: 0,
+      Grün: 0,
+      Gelb: 0
+    };
+
+    const total = Object.values(votes).reduce((a, b) => a + b, 0);
+    const resultsDiv = document.getElementById('results');
+
+    for (const farbe in votes) {
+      const percent = total ? Math.round((votes[farbe] / total) * 100) : 0;
+      resultsDiv.innerHTML += `
+        <div class="bar" style="width: ${percent}%;">
+          ${farbe}: ${votes[farbe]} Stimme(n) (${percent}%)
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>

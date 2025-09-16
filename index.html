@@ -41,24 +41,6 @@
     button:hover {
       transform: scale(1.05);
     }
-
-    .results {
-      margin-top: 30px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .bar {
-      height: 30px;
-      background-color: white;
-      color: black;
-      text-align: left;
-      padding-left: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      line-height: 30px;
-      transition: width 0.5s;
-    }
   </style>
 </head>
 <body>
@@ -70,36 +52,20 @@
     <button onclick="vote('Blau')">Blau</button>
     <button onclick="vote('Grün')">Grün</button>
     <button onclick="vote('Gelb')">Gelb</button>
-
-    <div class="results" id="results"></div>
   </div>
 
   <script>
-    const votes = {
-      Rot: 0,
-      Blau: 0,
-      Grün: 0,
-      Gelb: 0
-    };
+    function vote(farbe) {
+      let stimmen = JSON.parse(localStorage.getItem('votes')) || {
+        Rot: 0,
+        Blau: 0,
+        Grün: 0,
+        Gelb: 0
+      };
 
-    function vote(color) {
-      votes[color]++;
-      showResults();
-    }
-
-    function showResults() {
-      const total = Object.values(votes).reduce((a, b) => a + b, 0);
-      const resultsDiv = document.getElementById('results');
-      resultsDiv.innerHTML = '';
-
-      for (const color in votes) {
-        const percent = total ? Math.round((votes[color] / total) * 100) : 0;
-        resultsDiv.innerHTML += `
-          <div class="bar" style="width: ${percent}%;">
-            ${color}: ${votes[color]} Stimme(n) (${percent}%)
-          </div>
-        `;
-      }
+      stimmen[farbe]++;
+      localStorage.setItem('votes', JSON.stringify(stimmen));
+      window.location.href = 'auswertung.html';
     }
   </script>
 
