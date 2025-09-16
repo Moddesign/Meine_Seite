@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Umfrage Auswertung</title>
   <style>
     body {
@@ -12,33 +12,81 @@
       flex-direction: column;
       align-items: center;
       padding: 40px;
+      min-height: 100vh;
+      margin: 0;
     }
 
     h1 {
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 3px black;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
     }
 
     .results {
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
+    }
+
+    .result-row {
+      margin-bottom: 20px;
+    }
+
+    .label {
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 18px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .bar-container {
+      position: relative;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
     }
 
     .bar {
-      height: 30px;
-      background-color: white;
-      color: black;
-      text-align: left;
-      padding-left: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      line-height: 30px;
-      transition: width 0.5s;
+      height: 100%;
+      background: linear-gradient(90deg, red, blue);
+      border-radius: 15px 0 0 15px;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      padding-left: 12px;
+      color: white;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+      box-sizing: border-box;
+    }
+
+    .percent {
+      position: absolute;
+      right: 12px;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
     }
 
     .zurueck {
-      margin-top: 30px;
-      background: rgba(255, 255, 255, 0.2);
+      margin-top: 40px;
+      padding: 12px 25px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    }
+
+    .zurueck:hover {
+      background: rgba(255, 255, 255, 0.45);
     }
   </style>
 </head>
@@ -48,7 +96,7 @@
 
   <div class="results" id="results"></div>
 
-  <button class="zurueck" onclick="window.location.href='umfrage.html'">Zurück zur Umfrage</button>
+  <button class="zurueck" onclick="window.location.href='index.html'">Zurück zur Umfrage</button>
 
   <script>
     const votes = JSON.parse(localStorage.getItem('votes')) || {
@@ -61,13 +109,37 @@
     const total = Object.values(votes).reduce((a, b) => a + b, 0);
     const resultsDiv = document.getElementById('results');
 
-    for (const farbe in votes) {
-      const percent = total ? Math.round((votes[farbe] / total) * 100) : 0;
-      resultsDiv.innerHTML += `
-        <div class="bar" style="width: ${percent}%;">
-          ${farbe}: ${votes[farbe]} Stimme(n) (${percent}%)
-        </div>
-      `;
+    for (const color in votes) {
+      const count = votes[color];
+      const percent = total ? Math.round((count / total) * 100) : 0;
+
+      // Erzeuge den Ergebnisblock
+      const row = document.createElement('div');
+      row.className = 'result-row';
+
+      const label = document.createElement('div');
+      label.className = 'label';
+      label.textContent = `${color} (${count} Stimme${count !== 1 ? 'n' : ''})`;
+
+      const barContainer = document.createElement('div');
+      barContainer.className = 'bar-container';
+
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.width = percent + '%';
+      bar.textContent = percent > 10 ? percent + '%' : ''; // Zeige % im Balken nur wenn genug Platz
+
+      const percentLabel = document.createElement('div');
+      percentLabel.className = 'percent';
+      percentLabel.textContent = percent + '%';
+
+      barContainer.appendChild(bar);
+      barContainer.appendChild(percentLabel);
+
+      row.appendChild(label);
+      row.appendChild(barContainer);
+
+      resultsDiv.appendChild(row);
     }
   </script>
 
