@@ -1,16 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-<meta chatset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Meine Seite</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Verlauf-Button</title>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .gradient-button {
+      padding: 15px 30px;
+      font-size: 16px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, red, blue);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gradient-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  </style>
 </head>
 <body>
-<header><h1>Hallo Buddys</h1></header>
-<main>
-<p>Dies ist meine erste Webseite - gehostet via GitHub Pages.</p>
-</main>
-<footer><small>copy 2025</small></footer>
+
+  <button class="gradient-button">Klick mich</button>
+
 </body>
 </html>
