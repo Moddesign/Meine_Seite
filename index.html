@@ -2,15 +2,25 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Verlauf-Button</title>
+  <title>Verlauf Buttons</title>
   <style>
     body {
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(to right, red, blue);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .gradient-button {
@@ -28,11 +38,24 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
+    h1 {
+      color: white;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
   </style>
 </head>
 <body>
 
-  <button class="gradient-button">Klick mich</button>
+  <h1>Wähle eine Option</h1>
+
+  <div class="button-container">
+    <button class="gradient-button">Button 1</button>
+    <button class="gradient-button">Button 2</button>
+    <button class="gradient-button">Button 3</button>
+    <button class="gradient-button">Button 4</button>
+  </div>
 
 </body>
 </html>
